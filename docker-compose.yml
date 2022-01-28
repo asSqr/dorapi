@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  db:
+    container_name: postgres_db
+    image: postgres:latest
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - django_data_volume_v2:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+    networks:
+      - back-api-network
+
+  backend:
+    container_name: back-api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./backend:/backend
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - back-api-network
+
+networks:
+  back-api-network:
+
+volumes:
+  django_data_volume_v2:

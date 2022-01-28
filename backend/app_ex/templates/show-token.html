@@ -1,0 +1,16 @@
+<html>
+    <div class="box">
+        {% if msg %}
+            {{ msg }}
+        {% else %}
+            Logout Required: <a href="http://localhost:8000/auth/logout/"> http://localhost:8000/auth/logout/ </a>
+        {% endif %}
+    </div>
+
+    <style>
+        .box {
+            width: 400px;
+            word-wrap: break-word;
+        }
+    </style>
+</html>

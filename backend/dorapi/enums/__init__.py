@@ -1,0 +1,1 @@
+from .muser_type_enum import MUserTypeEnum    # noqa
