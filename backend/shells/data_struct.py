@@ -42,3 +42,7 @@ class Gadget:
     ruby: str
     desc: str
     books: List[Book]
+
+class GadgetBrick:
+    def __init__(self, gadget):
+        self.kp = gadget

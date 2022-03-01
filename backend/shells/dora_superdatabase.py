@@ -9,8 +9,15 @@ from beautifulsoup import (
     inner_text_options,
 )
 
-from data_struct import Gadget, BookSeriesEnum
+from data_struct import (
+    Gadget,
+    GadgetBrick,
+    BookSeriesEnum,
+)
 from typing import List
+
+import pickle
+import sys
 
 GADGET_ARTICLE_PATH = 'article'
 
@@ -112,7 +119,7 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
 
     return Gadget(**gadget_dict)
 
-def get_gadgets() -> List[Gadget]:
+def get_gadgets() -> List[GadgetBrick]:
     
     for text in html_texts:
         soup = generate_soup(text)
@@ -121,10 +128,15 @@ def get_gadgets() -> List[Gadget]:
         gadgets = []
         
         for article in articles:
-            gadgets.append(get_gadget_info(article))
-
-        print(gadgets)
+            gadget = get_gadget_info(article)
+            brick = GadgetBrick(gadget)
+            gadgets.append(brick)
         
     return gadgets
 
-get_gadgets()
+gadgets = get_gadgets()
+
+sys.setrecursionlimit(10000)
+
+with open('../seeds/seed_gadgets.pickle', 'wb') as f:
+    pickle.dump(gadgets, f, -1)
