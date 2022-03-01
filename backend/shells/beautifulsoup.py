@@ -48,7 +48,7 @@ def soup_find_extended(
         soup.find 系の拡張
     '''
 
-    selectors = path.split('>')
+    selectors = map(lambda s: s.strip(), path.split('>'))
     
     for selector in selectors:
         soup_options = kwargs

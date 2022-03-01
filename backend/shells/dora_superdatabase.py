@@ -113,6 +113,7 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
     return Gadget(**gadget_dict)
 
 def get_gadgets() -> List[Gadget]:
+    
     for text in html_texts:
         soup = generate_soup(text)
         articles = soup_find_all(soup, GADGET_ARTICLE_PATH)
