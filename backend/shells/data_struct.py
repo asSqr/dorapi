@@ -43,6 +43,16 @@ class Gadget:
     desc: str
     books: List[Book]
 
-class GadgetBrick:
-    def __init__(self, gadget):
-        self.kp = gadget
+    def __str__(self):
+        book_list = []
+        
+        for book in self.books:
+            book_list.append(f"MBook(\
+series='{book['series'].value}', \
+volume='{book['volume']}')")
+            
+        books_str = f"[{', '.join(book_list)}]"
+        
+        return f"MGadget(name='{self.name}', ruby='{self.ruby}', \
+desc='{self.desc}', \
+books={books_str})"

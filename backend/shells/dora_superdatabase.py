@@ -11,13 +11,9 @@ from beautifulsoup import (
 
 from data_struct import (
     Gadget,
-    GadgetBrick,
     BookSeriesEnum,
 )
 from typing import List
-
-import pickle
-import sys
 
 GADGET_ARTICLE_PATH = 'article'
 
@@ -119,24 +115,21 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
 
     return Gadget(**gadget_dict)
 
-def get_gadgets() -> List[GadgetBrick]:
+def get_gadgets() -> List[Gadget]:
+    
+    gadgets = []
     
     for text in html_texts:
         soup = generate_soup(text)
         articles = soup_find_all(soup, GADGET_ARTICLE_PATH)
         
-        gadgets = []
-        
         for article in articles:
             gadget = get_gadget_info(article)
-            brick = GadgetBrick(gadget)
-            gadgets.append(brick)
+            gadgets.append(gadget)
         
     return gadgets
 
 gadgets = get_gadgets()
 
-sys.setrecursionlimit(10000)
-
-with open('../seeds/seed_gadgets.pickle', 'wb') as f:
-    pickle.dump(gadgets, f, -1)
+# print(len(gadgets))
+print(f'[{", ".join(map(str, gadgets))}]')
