@@ -1,18 +1,22 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from dorapi.models import MBook
 from .dora_superdatabase import superdatabase_datas
+from .utils import generate_book_key, book_to_mbook
 from commons.seed import Seed
+from typing import List
 
 
 @dataclass
 class SeedMBook(Seed):
 
-    def create(self):
-        book_set = set()
+    def create(self) -> List[MBook]:
+        book_dict = {}
         
         for gadget in superdatabase_datas:
-            book_set.update(gadget.books)
-        
-        mbooks = MBook.objects.bulk_create(list(book_set))
+            for book in gadget.books:
+                book_key = generate_book_key(book)
+                book_dict[book_key] = book_to_mbook(book)
+                
+        mbooks = MBook.objects.bulk_create(book_dict.values())
         
         return mbooks

@@ -25,6 +25,12 @@ class MGadget(BaseModel):
     name = models.CharField(max_length=8192)
     ruby = models.CharField(max_length=8192)
     desc = models.CharField(max_length=8192)
-    mbook = models.ForeignKey('dorapi.MBook', 
-        db_column='mbook_id', related_name='mbooks',
-        related_query_name='mbook', on_delete=models.CASCADE)
+    mbooks = models.ManyToManyField(
+        'dorapi.MBook',
+        related_name='mbooks',
+        related_query_name='mbook',
+        through='dorapi.GadgetBook',
+    )
+    
+    objects = MGadgetQuerySet.as_soft_manager()
+    object_all = MGadgetQuerySet.as_manager()

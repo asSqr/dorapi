@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('./backend/seeds')
+
 from superbase_texts import html_texts
 
 from bs4 import BeautifulSoup
@@ -131,5 +135,11 @@ def get_gadgets() -> List[Gadget]:
 
 gadgets = get_gadgets()
 
-# print(len(gadgets))
-print(f'[{", ".join(map(str, gadgets))}]')
+prelude_str = '''from .data_struct import Gadget, Book
+from dorapi.enums import BookSeriesEnum
+
+superdatabase_datas = '''
+
+content_str = f'[{", ".join(map(str, gadgets))}]'
+
+print(prelude_str + content_str)

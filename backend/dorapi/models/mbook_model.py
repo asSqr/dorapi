@@ -27,3 +27,12 @@ class MBook(BaseModel):
     series = models.CharField(max_length=8192,
                 choices=BookSeriesEnum.choices())
     volume = models.CharField(max_length=8192)
+    mgadgets = models.ManyToManyField(
+        'dorapi.MGadget',
+        related_name='mgadgets',
+        related_query_name='mgadget',
+        through='dorapi.GadgetBook',
+    )
+
+    objects = MBookQuerySet.as_soft_manager()
+    object_all = MBookQuerySet.as_manager()
