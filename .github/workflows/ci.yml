@@ -1,0 +1,42 @@
+name: ci-python
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.py"
+env:
+  TARGET_BRANCH: ${{ github.base_ref }}
+  BACKEND_DOCKER_COMPOSE_NAME: backend
+  COVERAGE_REPORT_TXT: backend/coverage-report.txt
+jobs:
+  lint-and-test:
+    name: Lint and test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create env file
+        run: |
+          cat << EOF >> .env
+          SECRET_KEY=${{ secrets.DJANGO_API_KEY }}
+          EOF
+
+      - name: Start backend api
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+        run: docker-compose up -d
+
+      - name: Fetch target branch
+        run: git fetch --depth 1 origin ${{ env.TARGET_BRANCH }}
+
+      - name: Lint with flake8
+        run: |
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} mkdir lint
+          for file in $(git diff origin/${{ env.TARGET_BRANCH }} HEAD --diff-filter=AM --name-only -- "*.py") ; do
+            docker cp ${GITHUB_WORKSPACE}/${file} `docker-compose ps -q ${{ env.BACKEND_DOCKER_COMPOSE_NAME }}`:/backend/lint/`echo ${file} | sed 's_/_\_\__g'`
+            docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} flake8 lint/`echo ${file} | sed 's_/_\_\__g'` --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W503, W504"
+          done
+  
