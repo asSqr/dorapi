@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('./backend/dorapi')
+sys.path.append('./backend')
 
 from dataclasses import dataclass
 from dorapi.enums import BookSeriesEnum

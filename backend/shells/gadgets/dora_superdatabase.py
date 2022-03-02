@@ -1,6 +1,7 @@
 import sys
 
-sys.path.append('./backend/seeds')
+sys.path.append('./backend/seeds/gadgets')
+sys.path.append('./backend/shells')
 
 from superbase_texts import html_texts
 

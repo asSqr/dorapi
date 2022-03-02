@@ -1,15 +1,15 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from dorapi.models import MGadget
-from .dora_superdatabase import superdatabase_datas
+from .gadgets.dora_superdatabase import superdatabase_datas as gadget_superdatabase_datas
+from .gadgets.utils import gadget_to_mgadget
 from commons.seed import Seed
 from typing import List
-from .utils import gadget_to_mgadget
 
 @dataclass
 class SeedMGadget(Seed):
 
     def create(self) -> List[MGadget]:
-        gadgets = superdatabase_datas
+        gadgets = gadget_superdatabase_datas
         mgadgets = []
         
         for gadget in gadgets:

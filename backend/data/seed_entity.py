@@ -8,7 +8,7 @@ from seeds import (
 
 with transaction.atomic():
     mbooks = SeedMBook().create()
-    print(f'created {len(mbooks)} books')
+    print(f'created {len(mbooks)} mbooks')
 
     mgadgets = SeedMGadget().create()
     print(f'created {len(mgadgets)} mgadgets')
