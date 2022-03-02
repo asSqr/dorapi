@@ -808,4 +808,3 @@ class AutoSchema(ViewInspector):
             RemovedInDRF314Warning, stacklevel=2
         )
         return self.allows_filters(path, method)
-    
