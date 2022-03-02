@@ -18,12 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Create env file
-        run: |
-          cat << EOF >> .env
-          SECRET_KEY=${{ secrets.DJANGO_API_KEY }}
-          EOF
-
       - name: Start backend api
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
