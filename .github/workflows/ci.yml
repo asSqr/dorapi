@@ -7,7 +7,7 @@ on:
     paths:
       - "**.py"
 env:
-  TARGET_BRANCH: ${{ github.base_ref }}
+  TARGET_BRANCH: main
   BACKEND_DOCKER_COMPOSE_NAME: backend
   COVERAGE_REPORT_TXT: backend/coverage-report.txt
 jobs:
