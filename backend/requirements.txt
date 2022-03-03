@@ -7,6 +7,7 @@ certifi==2021.10.8
 charset-normalizer==2.0.10
 coreapi==2.3.3
 coreschema==0.0.4
+coverage==6.3.2
 Django==4.0.1
 django-admin==2.0.1
 django-cors-headers==3.11.0
