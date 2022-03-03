@@ -1,14 +1,15 @@
-from dataclasses import dataclass
 from typing import List, Any
 from types import SimpleNamespace
 
 from commons.models import BaseModel
+
 
 def attr_dict_to_object(obj: BaseModel, attrs: List[str]) -> BaseModel:
     for attr in attrs:
         assert isinstance(getattr(obj, attr), dict), f'{obj.__class__.__name__} attribute: {attr} is not a Dict'
         setattr(obj, attr, SimpleNamespace(**getattr(obj, attr)))
     return obj
+
 
 class ResponseFormat:
 
@@ -33,4 +34,3 @@ class ResponseFormat:
         fields = [k for k, v in vars(x).items() if isinstance(v, dict) and v]
 
         return [attr_dict_to_object(obj, fields) for obj in obj_list]
-
