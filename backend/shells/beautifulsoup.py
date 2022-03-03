@@ -6,9 +6,15 @@ from typing import List, Dict, Any
 def generate_soup(html_text: str) -> BeautifulSoup:
     return BeautifulSoup(html_text, 'html.parser')
 
-def selector_parse(selector: str, class_key: str = 'class_') -> Dict[str, Any]:
+
+def selector_parse(
+    selector: str, class_key: str = 'class_'
+) -> Dict[str, Any]:
     
-    def reduce_func(acc: Dict[str, Any], tag: str) -> Dict[str, Any]:
+    def reduce_func(
+        acc: Dict[str, Any], tag: str
+    ) -> Dict[str, Any]:
+        
         if len(tag) == 0:
             return acc
         
@@ -39,9 +45,11 @@ def selector_parse(selector: str, class_key: str = 'class_') -> Dict[str, Any]:
         
     return options
 
+
 def soup_find_extended(
     soup: BeautifulSoup, attr: str,
-    path: str, **kwargs) -> BeautifulSoup:
+    path: str, **kwargs
+) -> BeautifulSoup:
     '''
         ・ネストされたパスを > 区切りで指定できる
         ・クラスを .~~ で指定できる (タグのデフォルトは `div`)
@@ -62,13 +70,19 @@ def soup_find_extended(
         
     return soup
 
-def soup_find(soup: BeautifulSoup, 
-    path: str, **kwargs) -> BeautifulSoup:
+
+def soup_find(
+    soup: BeautifulSoup, 
+    path: str, **kwargs
+) -> BeautifulSoup:
     
     return soup_find_extended(soup, 'find', path, **kwargs)
 
-def soup_find_all(soup: BeautifulSoup, 
-    selector: str, **kwargs) -> List[BeautifulSoup]:
+
+def soup_find_all(
+    soup: BeautifulSoup,
+    selector: str, **kwargs
+) -> List[BeautifulSoup]:
     
     soup_options = kwargs
     
@@ -77,6 +91,7 @@ def soup_find_all(soup: BeautifulSoup,
     )
     
     return soup.find_all(**soup_options)
+
 
 # 結果として inner_text だけが欲しい場合の options
 inner_text_options = {
