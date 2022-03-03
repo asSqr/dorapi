@@ -1,10 +1,10 @@
 import sys
+
+sys.path.append('./backend')
+
 from dataclasses import dataclass
 from dorapi.enums import BookSeriesEnum
 from typing import List
-
-
-sys.path.append('./backend')
 
 
 @dataclass

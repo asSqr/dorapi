@@ -14,5 +14,5 @@ python ./backend/shells/gadgets/dora_superdatabase.py > ./backend/seeds/gadgets/
 
 ## lint
 ```
-flake8 . --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W293, W503, W504" 
+flake8 . --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E402, E501, W293, W503, W504"
 ```
