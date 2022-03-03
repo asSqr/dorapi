@@ -37,6 +37,6 @@ jobs:
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} mkdir lint
           for file in $(git diff origin/${{ env.TARGET_BRANCH }} HEAD --diff-filter=AM --name-only -- "*.py") ; do
             docker cp ${GITHUB_WORKSPACE}/${file} `docker-compose ps -q ${{ env.BACKEND_DOCKER_COMPOSE_NAME }}`:/backend/lint/`echo ${file} | sed 's_/_\_\__g'`
-            docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} flake8 lint/`echo ${file} | sed 's_/_\_\__g'` --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W503, W504"
+            docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} flake8 lint/`echo ${file} | sed 's_/_\_\__g'` --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W293, W503, W504"
           done
   

@@ -20,7 +20,9 @@ from data_struct import (
 )
 from typing import List
 
+
 GADGET_ARTICLE_PATH = 'article'
+
 
 def get_gadget_info(soup: BeautifulSoup) -> Gadget:
     
@@ -120,6 +122,7 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
 
     return Gadget(**gadget_dict)
 
+
 def get_gadgets() -> List[Gadget]:
     
     gadgets = []
@@ -133,6 +136,7 @@ def get_gadgets() -> List[Gadget]:
             gadgets.append(gadget)
         
     return gadgets
+
 
 gadgets = get_gadgets()
 

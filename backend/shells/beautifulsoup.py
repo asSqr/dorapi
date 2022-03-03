@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import functools
 from typing import List, Dict, Any
 
+
 def generate_soup(html_text: str) -> BeautifulSoup:
     return BeautifulSoup(html_text, 'html.parser')
 

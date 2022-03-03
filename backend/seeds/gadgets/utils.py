@@ -12,10 +12,12 @@ def mbook_to_book(mbook: MBook) -> Book:
     
     return book
 
+
 def book_to_mbook(book: Book) -> MBook:
     mbook = MBook(**asdict(book))
     
     return mbook
+
 
 def gadget_to_mgadget(gadget: Gadget) -> MGadget:
     gadget_dict = asdict(gadget)
@@ -24,6 +26,7 @@ def gadget_to_mgadget(gadget: Gadget) -> MGadget:
     mgadget = MGadget(**gadget_dict)
     
     return mgadget
+
 
 def mgadget_to_gadget(mgadget: MGadget) -> Gadget:
     gadget = Gadget(
@@ -35,14 +38,18 @@ def mgadget_to_gadget(mgadget: MGadget) -> Gadget:
     
     return gadget
 
+
 def generate_gadget_key(gadget: Gadget) -> str:
     return f'{gadget.name}-{gadget.ruby}-{gadget.desc}'
+
 
 def generate_mgadget_key(mgadget: MGadget) -> str:
     return f'{mgadget.name}-{mgadget.ruby}-{mgadget.desc}'
 
+
 def generate_book_key(book: Book) -> str:
     return f'{book.series.value}-{book.volume}'
+
 
 def generate_mbook_key(mbook: MBook) -> str:
     return generate_book_key(mbook_to_book(mbook))

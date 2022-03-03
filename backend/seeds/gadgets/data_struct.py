@@ -1,24 +1,28 @@
 import sys
-
-sys.path.append('./backend')
-
 from dataclasses import dataclass
 from dorapi.enums import BookSeriesEnum
 from typing import List
 
-'''
-登場する単行本 情報 
-'''
+
+sys.path.append('./backend')
+
+
 @dataclass
 class Book:
+    '''
+    登場する単行本 情報
+    '''
+    
     series: BookSeriesEnum
     volume: str
 
-'''
-ドラえもんひみつ道具 情報
-'''
+
 @dataclass
 class Gadget:
+    '''
+    ドラえもんひみつ道具 情報
+    '''
+    
     name: str
     ruby: str
     desc: str
