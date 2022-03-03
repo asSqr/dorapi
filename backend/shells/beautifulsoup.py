@@ -72,7 +72,7 @@ def soup_find_extended(
 
 
 def soup_find(
-    soup: BeautifulSoup, 
+    soup: BeautifulSoup,
     path: str, **kwargs
 ) -> BeautifulSoup:
     

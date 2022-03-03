@@ -50,7 +50,7 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
         )
         
         return gadget_dict.update({
-            'name': name, 
+            'name': name,
             'ruby': ruby,
         })
         
