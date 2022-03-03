@@ -1,10 +1,11 @@
 from enum import Enum
 
 
-'''
-単行本 Enum
-'''
 class BookSeriesEnum(Enum):
+    '''
+    単行本 Enum
+    '''
+
     # てんとう虫コミックス
     tencomi = 'てんコミ'
     # 大長編ドラえもん

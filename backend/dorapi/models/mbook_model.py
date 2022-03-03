@@ -20,7 +20,7 @@ class MBookQuerySet(QuerySet):
         return self.filter(id=id_)
 
 
-class MBook(BaseModel):    
+class MBook(BaseModel):
     '''
     掲載単行本
     '''
