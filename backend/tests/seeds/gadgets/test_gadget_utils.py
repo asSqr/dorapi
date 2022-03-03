@@ -196,4 +196,3 @@ class TestGadgetUtils(TestCase, GadgetsMixin):
             self.assertEqual(len(mbooks), len(set(keys)))
                 
         check_keys()
-    
