@@ -47,7 +47,7 @@ jobs:
 
       - name: Test and create coverage
         run: |
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test || [ $? -eq 1 ]
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} touch /${{ env.COVERAGE_REPORT_TXT }}
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/sh -c "coverage report > /${{ env.COVERAGE_REPORT_TXT }}"
 
