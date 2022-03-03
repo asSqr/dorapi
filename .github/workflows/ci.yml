@@ -9,7 +9,7 @@ on:
 env:
   TARGET_BRANCH: main
   BACKEND_DOCKER_COMPOSE_NAME: backend
-  COVERAGE_REPORT_TXT: backend/coverage-report.txt
+  COVERAGE_REPORT_TXT: backend/coverage_report.txt
 jobs:
   lint-and-test:
     name: Lint and test
@@ -22,6 +22,11 @@ jobs:
         run: |
           cat << EOF >> .env
           SECRET_KEY=${{ secrets.DJANGO_API_KEY }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_ENDPOINT=${{ secrets.DB_ENDPOINT }}
+          DB_PORT=${{ secrets.DB_PORT }}
           EOF
 
       - name: Start backend api
