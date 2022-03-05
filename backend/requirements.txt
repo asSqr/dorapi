@@ -7,6 +7,7 @@ certifi==2021.10.8
 charset-normalizer==2.0.10
 coreapi==2.3.3
 coreschema==0.0.4
+coverage==6.3.2
 Django==4.0.1
 django-admin==2.0.1
 django-cors-headers==3.11.0
@@ -17,14 +18,19 @@ django-rest-framework-nested==0.0.1
 django-rest-swagger==2.2.0
 django-six==1.0.4
 djangorestframework==3.13.1
+flake8==4.0.1
 idna==3.3
 itypes==1.2.0
 Jinja2==3.0.3
 lxml==4.8.0
 MarkupSafe==2.0.1
+mccabe==0.6.1
 openapi-codec==1.3.2
 psycopg2==2.9.3
+pycodestyle==2.8.0
+pyflakes==2.4.0
 python-dateutil==2.8.2
+python-dotenv==0.19.2
 pytz==2021.3
 PyYAML==6.0
 requests==2.27.1

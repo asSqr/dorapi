@@ -18,10 +18,12 @@ class MGadgetQuerySet(QuerySet):
     def filter_eq_id(self, id_: str) -> 'MGadgetQuerySet':
         return self.filter(id=id_)
 
-'''
-ドラえもんひみつ道具
-'''
+
 class MGadget(BaseModel):
+    '''
+    ドラえもんひみつ道具
+    '''
+    
     name = models.CharField(max_length=8192)
     ruby = models.CharField(max_length=8192)
     desc = models.CharField(max_length=8192)

@@ -18,6 +18,7 @@ from data_struct import (
     Gadget,
     BookSeriesEnum,
 )
+
 from typing import List
 
 
@@ -50,7 +51,7 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
         )
         
         return gadget_dict.update({
-            'name': name, 
+            'name': name,
             'ruby': ruby,
         })
         
@@ -123,6 +124,26 @@ def get_gadget_info(soup: BeautifulSoup) -> Gadget:
     return Gadget(**gadget_dict)
 
 
+def unique_gadgets(gadgets: List[Gadget]) -> List[Gadget]:
+    '''
+        ひみつ道具リストの重複を除く
+        "大きくなる虫めがね" 等が重複しているよう
+    '''
+    
+    ret_gadgets = []
+    used_gadgets = {}
+    
+    for gadget in gadgets:
+        if gadget.name in used_gadgets:
+            continue
+        
+        used_gadgets[gadget.name] = True
+        
+        ret_gadgets.append(gadget)
+    
+    return ret_gadgets
+
+
 def get_gadgets() -> List[Gadget]:
     
     gadgets = []
@@ -134,6 +155,8 @@ def get_gadgets() -> List[Gadget]:
         for article in articles:
             gadget = get_gadget_info(article)
             gadgets.append(gadget)
+            
+    gadgets = unique_gadgets(gadgets)
         
     return gadgets
 

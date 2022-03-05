@@ -9,7 +9,7 @@ on:
 env:
   TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
-  COVERAGE_REPORT_TXT: backend/coverage-report.txt
+  COVERAGE_REPORT_TXT: backend/coverage_report.txt
 jobs:
   lint-and-test:
     name: Lint and test
@@ -22,6 +22,11 @@ jobs:
         run: |
           cat << EOF >> .env
           SECRET_KEY=${{ secrets.DJANGO_API_KEY }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_ENDPOINT=${{ secrets.DB_ENDPOINT }}
+          DB_PORT=${{ secrets.DB_PORT }}
           EOF
 
       - name: Start backend api
@@ -39,3 +44,30 @@ jobs:
             docker cp ${GITHUB_WORKSPACE}/${file} `docker-compose ps -q ${{ env.BACKEND_DOCKER_COMPOSE_NAME }}`:/backend/lint/`echo ${file} | sed 's_/_\_\__g'`
             docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} flake8 lint/`echo ${file} | sed 's_/_\_\__g'` --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E402, E501, W293, W503, W504"
           done
+
+      - name: Test and create coverage
+        run: |
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test || [ $? -eq 1 ]
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} touch /${{ env.COVERAGE_REPORT_TXT }}
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/sh -c "coverage report > /${{ env.COVERAGE_REPORT_TXT }}"
+
+      - name: Convert coverage report markdown
+        run: docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python /backend/cicd/coverage_trance_md.py /${{ env.COVERAGE_REPORT_TXT }}
+
+      - name: Read coverage report
+        id: read-coverage-report
+        uses: juliangruber/read-file-action@v1.0.0
+        with:
+          path: ./${{ env.COVERAGE_REPORT_TXT }}
+
+      - name: Remove coverage report
+        run: rm -f ./${{ env.COVERAGE_REPORT_TXT }}
+
+      - name: Comment pull-request coverage report
+        uses: marocchino/sticky-pull-request-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          header: coverage-report
+          message: |
+            ## Coverage report
+            ${{ steps.read-coverage-report.outputs.content }}

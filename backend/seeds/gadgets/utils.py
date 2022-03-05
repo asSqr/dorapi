@@ -14,7 +14,10 @@ def mbook_to_book(mbook: MBook) -> Book:
 
 
 def book_to_mbook(book: Book) -> MBook:
-    mbook = MBook(**asdict(book))
+    book_dict = asdict(book)
+    book_dict['series'] = book.series.value
+    
+    mbook = MBook(**book_dict)
     
     return mbook
 

@@ -20,12 +20,15 @@ class MBookQuerySet(QuerySet):
         return self.filter(id=id_)
 
 
-'''
-掲載単行本
-'''
 class MBook(BaseModel):
-    series = models.CharField(max_length=8192,
-                choices=BookSeriesEnum.choices())
+    '''
+    掲載単行本
+    '''
+    
+    series = models.CharField(
+        max_length=8192,
+        choices=BookSeriesEnum.choices()
+    )
     volume = models.CharField(max_length=8192)
     mgadgets = models.ManyToManyField(
         'dorapi.MGadget',
