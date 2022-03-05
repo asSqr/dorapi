@@ -1,4 +1,5 @@
 # Doraemon API
+ドラえもんのひみつ道具等のデータを提供します．
 
 ## virtualenv activate
 ```
