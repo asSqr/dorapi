@@ -77,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'commons.middlewares.LoggerMiddleware',
+    'commons.middlewares.MUserMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 ]
 
