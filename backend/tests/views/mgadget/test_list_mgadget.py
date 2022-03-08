@@ -1,6 +1,10 @@
 from commons.test import TestCase, Client
 from tests.test_seeds import TestSeed
+
 from dorapi.enums import BookSeriesEnum
+from dorapi.models import MGadget
+
+from typing import Dict, Any
 
 import logging
 
@@ -8,7 +12,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class TestListMGadget(TestCase):
+class MGadgetMixin:
+    def assertMGadget(self, data: Dict[str, Any], mgadget: MGadget):
+        self.assertEqual(data['name'], mgadget.name)
+        self.assertEqual(data['ruby'], mgadget.ruby)
+        self.assertEqual(data['desc'], mgadget.desc)
+        
+        for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
+            self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)
+            self.assertEqual(book['volume'], mbook.volume)
+
+
+class TestListMGadget(TestCase, MGadgetMixin):
 
     URL = '/api/v1/mgadgets/'
 
@@ -40,13 +55,7 @@ class TestListMGadget(TestCase):
                 name = data['name']
                 mgadget = mgadget_dict[name]
                 
-                self.assertEqual(data['name'], mgadget.name)
-                self.assertEqual(data['ruby'], mgadget.ruby)
-                self.assertEqual(data['desc'], mgadget.desc)
-                
-                for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
-                    self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)
-                    self.assertEqual(book['volume'], mbook.volume)
+                self.assertMGadget(data, mgadget)
                 
             self.assertEqual(extras['count'], len(self.seeds.mgadgets))
 
@@ -88,14 +97,8 @@ class TestListMGadget(TestCase):
                 for data in datas:
                     name = data['name']
                     mgadget = mgadget_dict[name]
-                    
-                    self.assertEqual(data['name'], mgadget.name)
-                    self.assertEqual(data['ruby'], mgadget.ruby)
-                    self.assertEqual(data['desc'], mgadget.desc)
-                    
-                    for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
-                        self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)
-                        self.assertEqual(book['volume'], mbook.volume)
+                
+                    self.assertMGadget(data, mgadget)
                     
                 self.assertEqual(extras['count'], len(filtered_mgadgets))
 
