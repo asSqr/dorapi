@@ -130,7 +130,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
         
         mgadget_dict = {}
         
-        sort_order = '+'
+        sort_order = 'asc'
         sort_key = 'ruby'
         
         def mgadget_compare_func(mgadget):
