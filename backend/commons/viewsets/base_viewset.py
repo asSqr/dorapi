@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from typing import Dict, List, Tuple, Any, Union, Type
 from rest_framework import serializers, viewsets
 from rest_framework.permissions import BasePermission

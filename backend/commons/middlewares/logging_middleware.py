@@ -4,6 +4,7 @@ from .middleware_util import RequestBodyHandler, ResponseBodyHandler
 
 logger = logging.getLogger(__name__)
 
+
 class LoggerMiddleware:
     MAX_LENGTH = 1024
 
