@@ -13,8 +13,8 @@ class ListMGadget(BaseUseCase):
         page = filterset_data.get('page')
         page_size = filterset_data.get('page_size')
         keyword = filterset_data.get('keyword')
-        sort_key = filterset_data.get('sort_key')
-        sort_order = filterset_data.get('sort_order')
+        sort_key = filterset_data.get('sort_key', 'ruby')
+        sort_order = filterset_data.get('sort_order', '+')
 
         mgadget_queryset = (
             self.mgadget_class.objects
@@ -24,6 +24,7 @@ class ListMGadget(BaseUseCase):
         mgadget_process = MGadgetProcess(mgadget_queryset)
         mgadget_process.filter_or_query_param(keyword)
         mgadget_process.sort_by_query_param(sort_key, sort_order)
+        mgadget_process.distinct()
         mgadget_process.paginate(page_size, page)
 
         mgadget_queryset = mgadget_process.mgadget_queryset
