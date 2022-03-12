@@ -15,10 +15,12 @@ class MGadgetView(SingleViewSet):
 
     serializer_class_dict = {
         'list': serializers.MGadgetReadDataListSerializer,
+        'retrieve': serializers.MGadgetReadDataSerializer,
     }
 
     use_case_dict = {
         'list': use_case_mgadget.ListMGadget,
+        'retrieve': use_case_mgadget.GetMGadget,
     }
 
     serializer_alias_dict = {

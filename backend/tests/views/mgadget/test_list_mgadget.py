@@ -1,26 +1,12 @@
 from commons.test import TestCase, Client
 from tests.test_seeds import TestSeed
 
-from dorapi.enums import BookSeriesEnum
-from dorapi.models import MGadget
-
-from typing import Dict, Any
+from .mgadget_mixins import MGadgetMixin
 
 import logging
 
 
 logger = logging.getLogger(__name__)
-
-
-class MGadgetMixin:
-    def assertMGadget(self, data: Dict[str, Any], mgadget: MGadget):
-        self.assertEqual(data['name'], mgadget.name)
-        self.assertEqual(data['ruby'], mgadget.ruby)
-        self.assertEqual(data['desc'], mgadget.desc)
-        
-        for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
-            self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)
-            self.assertEqual(book['volume'], mbook.volume)
 
 
 class TestListMGadget(TestCase, MGadgetMixin):
@@ -103,3 +89,72 @@ class TestListMGadget(TestCase, MGadgetMixin):
                 self.assertEqual(extras['count'], len(filtered_mgadgets))
 
             check_response()
+    
+    def test_list_mgadgets_paginate(self):
+        """
+        ページネーション
+        """
+        
+        mgadget_dict = {}
+        
+        page = 3
+        page_size = 20
+        
+        mgadgets = self.seeds.mgadgets[page_size * (page - 1):page_size * page]
+        
+        for mgadget in mgadgets:
+            mgadget_dict[mgadget.name] = mgadget
+        
+        url = f'{self.get_url()}?page={page}&page_size={page_size}'
+
+        result_json = self.request.get(url).json()
+
+        def check_response():
+            datas = result_json['datas']
+            extras = result_json['extras']
+            
+            for data in datas:
+                name = data['name']
+                mgadget = mgadget_dict[name]
+                
+                self.assertMGadget(data, mgadget)
+                
+            self.assertEqual(extras['count'], len(mgadgets))
+
+        check_response()
+
+    def test_list_mgadgets_sort(self):
+        """
+        ソート
+        """
+        
+        mgadget_dict = {}
+        
+        sort_order = '+'
+        sort_key = 'ruby'
+        
+        def mgadget_compare_func(mgadget):
+            return mgadget.ruby
+        
+        mgadgets = sorted(self.seeds.mgadgets, key=mgadget_compare_func)
+        
+        for mgadget in mgadgets:
+            mgadget_dict[mgadget.name] = mgadget
+        
+        url = f'{self.get_url()}?sort_order={sort_order}&sort_key={sort_key}'
+
+        result_json = self.request.get(url).json()
+
+        def check_response():
+            datas = result_json['datas']
+            extras = result_json['extras']
+            
+            for data in datas:
+                name = data['name']
+                mgadget = mgadget_dict[name]
+                
+                self.assertMGadget(data, mgadget)
+                
+            self.assertEqual(extras['count'], len(mgadgets))
+
+        check_response()

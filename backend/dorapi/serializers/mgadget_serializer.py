@@ -20,6 +20,10 @@ class MGadgetReadDataListSerializer(serializers.DataListSerializer):
     datas = MGadgetReadSerializer(many=True)
 
 
+class MGadgetReadDataSerializer(serializers.DataListSerializer):
+    data = MGadgetReadSerializer(many=False)
+    
+
 class MGadgetDataListSerializer(serializers.DataSerializer):
     datas = MGadgetReadSerializer(many=True)
 
