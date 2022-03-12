@@ -56,7 +56,7 @@ jobs:
           sleep 5
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py makemigrations
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py migrate
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/bash -c "python ./manage.py shell < ./dummy_data/seed_entity.py"
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/bash -c "python ./manage.py shell < ./data/seed_entity.py"
 
       - name: Test and create coverage
         run: |
