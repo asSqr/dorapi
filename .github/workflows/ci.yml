@@ -1,13 +1,13 @@
 name: ci-python
-
 on:
-  push:
+  pull_request:
     branches:
       - main
+      - develop
     paths:
       - "**.py"
 env:
-  TARGET_BRANCH: main
+  TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
   COVERAGE_REPORT_TXT: backend/coverage_report.txt
 jobs:
@@ -29,27 +29,42 @@ jobs:
           DB_PORT=${{ secrets.DB_PORT }}
           EOF
 
-      - name: Start backend api
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-        run: docker-compose up -d
-
       - name: Fetch target branch
         run: git fetch --depth 1 origin ${{ env.TARGET_BRANCH }}
 
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install flake8
+        run: pip install flake8
+
       - name: Lint with flake8
         run: |
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} mkdir lint
           for file in $(git diff origin/${{ env.TARGET_BRANCH }} HEAD --diff-filter=AM --name-only -- "*.py") ; do
-            docker cp ${GITHUB_WORKSPACE}/${file} `docker-compose ps -q ${{ env.BACKEND_DOCKER_COMPOSE_NAME }}`:/backend/lint/`echo ${file} | sed 's_/_\_\__g'`
-            docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} flake8 lint/`echo ${file} | sed 's_/_\_\__g'` --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E402, E501, W293, W503, W504"
+            echo ${file}
+            flake8 ${file} --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W293, W503, W504"
+            sleep 1
           done
+
+      - name: Start backend api
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+        run: |
+          docker-compose up -d
+          sleep 5
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py makemigrations
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py migrate
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/bash -c "python ./manage.py shell < ./dummy_data/seed_entity.py"
 
       - name: Test and create coverage
         run: |
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
+          echo "test done"
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} touch /${{ env.COVERAGE_REPORT_TXT }}
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/sh -c "coverage report > /${{ env.COVERAGE_REPORT_TXT }}"
+          echo "coverage report done"
 
       - name: Convert coverage report markdown
         run: docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python /backend/cicd/coverage_trance_md.py /${{ env.COVERAGE_REPORT_TXT }}
