@@ -308,7 +308,7 @@ def get_gadgets() -> Tuple[List[Gadget], List[Link]]:
 (gadgets, links) = get_gadgets()
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)
 
-prelude_str = '''from .data_struct import Gadget, Book
+prelude_str = '''from .data_struct import Gadget, Book, Link
 from dorapi.enums import BookSeriesEnum
 
 gadget_datas = '''
