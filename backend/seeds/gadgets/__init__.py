@@ -1,5 +1,5 @@
 from .data_struct import Gadget, Book       # noqa
-from .dora_superdatabase import superdatabase_datas     # noqa
+from .dora_superdatabase import gadget_datas     # noqa
 from .utils import (
     mbook_to_book,
     book_to_mbook,

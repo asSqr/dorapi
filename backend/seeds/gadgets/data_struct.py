@@ -40,7 +40,7 @@ volume='{book['volume']}')")
         books_str = f"[{', '.join(book_list)}]"
         
         return f"Gadget(name='{self.name}', ruby='{self.ruby}', \
-desc='{self.desc}', \
+href='{self.href}', desc='{self.desc}', \
 books={books_str})".replace('\n', '\\n')
 
 
@@ -70,5 +70,5 @@ class Link:
         from_gadget = gadget_href_dict.get(self.from_gadget_href)
         to_gadget = gadget_href_dict.get(self.to_gadget_href)
         
-        return f'Link(from_gadget={str(from_gadget)}, to_gadget={str(to_gadget)}, \
+        return f'Link(from_gadget_href={str(from_gadget)}, to_gadget_href={str(to_gadget)}, \
 begin_index={self.begin_index}, end_index={self.end_index})'

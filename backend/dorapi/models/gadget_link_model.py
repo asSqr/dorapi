@@ -26,12 +26,12 @@ class GadgetLink(BaseModel):
     '''
     
     from_mgadget = models.ForeignKey(
-        'dorapi.MGadget', db_column='from_mgadget_id', related_name='from_mlinks',
-        related_query_name='from_mlinks', on_delete=models.CASCADE
+        'dorapi.MGadget', db_column='from_mgadget_id', related_name='to_gadgetlinks',
+        related_query_name='to_gadgetlink', on_delete=models.CASCADE
     )
     to_mgadget = models.ForeignKey(
-        'dorapi.MGadget', db_column='to_mgadget_id', related_name='to_mlinks',
-        related_query_name='to_mlinks', on_delete=models.CASCADE
+        'dorapi.MGadget', db_column='to_mgadget_id', related_name='from_gadgetlinks',
+        related_query_name='from_gadgetlink', on_delete=models.CASCADE
     )
     begin_index = models.IntegerField()
     end_index = models.IntegerField()
