@@ -6,6 +6,15 @@ class MGadgetMBookSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     series = serializers.EnumField(BookSeriesEnum)
     volume = serializers.CharField()
+    
+    
+class MGadgetInfoSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField()
+    ruby = serializers.CharField()
+    href = serializers.CharField()
+    desc = serializers.CharField()
+    mbooks = MGadgetMBookSerializer(read_only=True, many=True)
 
 
 class MGadgetReadSerializer(serializers.Serializer):
@@ -15,6 +24,7 @@ class MGadgetReadSerializer(serializers.Serializer):
     href = serializers.CharField()
     desc = serializers.CharField()
     mbooks = MGadgetMBookSerializer(read_only=True, many=True)
+    linked_gadgets = MGadgetInfoSerializer(read_only=True, many=True)
 
 
 class MGadgetReadDataListSerializer(serializers.DataListSerializer):
