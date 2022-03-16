@@ -36,6 +36,7 @@ def mgadget_to_gadget(mgadget: MGadget) -> Gadget:
         name=mgadget.name,
         ruby=mgadget.ruby,
         desc=mgadget.desc,
+        href=mgadget.href,
         books=map(mbook_to_book, mgadget.mbooks.all()),
     )
     
