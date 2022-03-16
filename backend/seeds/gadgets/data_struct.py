@@ -1,10 +1,10 @@
 import sys
 
-sys.path.append('./backend')
+sys.path.append('./backend')        # noqa
 
-from dataclasses import dataclass
-from dorapi.enums import BookSeriesEnum
-from typing import List
+from dataclasses import dataclass        # noqa
+from dorapi.enums import BookSeriesEnum        # noqa
+from typing import List        # noqa
 
 
 @dataclass
