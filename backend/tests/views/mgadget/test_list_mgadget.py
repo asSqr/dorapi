@@ -27,7 +27,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
         mgadget_dict = {}
         
         for mgadget in self.seeds.mgadgets:
-            mgadget_dict[mgadget.name] = mgadget
+            mgadget_dict[mgadget.href] = mgadget
         
         url = self.get_url()
 
@@ -38,8 +38,8 @@ class TestListMGadget(TestCase, MGadgetMixin):
             extras = result_json['extras']
             
             for data in datas:
-                name = data['name']
-                mgadget = mgadget_dict[name]
+                href = data['href']
+                mgadget = mgadget_dict[href]
                 
                 self.assertMGadget(data, mgadget)
                 
@@ -70,7 +70,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
             mgadget_dict = {}
             
             for mgadget in filtered_mgadgets:
-                mgadget_dict[mgadget.name] = mgadget
+                mgadget_dict[mgadget.href] = mgadget
             
             url = f'{self.get_url()}?keyword={keyword}'
 
@@ -81,8 +81,8 @@ class TestListMGadget(TestCase, MGadgetMixin):
                 extras = result_json['extras']
                 
                 for data in datas:
-                    name = data['name']
-                    mgadget = mgadget_dict[name]
+                    href = data['href']
+                    mgadget = mgadget_dict[href]
                 
                     self.assertMGadget(data, mgadget)
                     
@@ -103,7 +103,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
         mgadgets = self.seeds.mgadgets[page_size * (page - 1):page_size * page]
         
         for mgadget in mgadgets:
-            mgadget_dict[mgadget.name] = mgadget
+            mgadget_dict[mgadget.href] = mgadget
         
         url = f'{self.get_url()}?page={page}&page_size={page_size}'
 
@@ -114,8 +114,8 @@ class TestListMGadget(TestCase, MGadgetMixin):
             extras = result_json['extras']
             
             for data in datas:
-                name = data['name']
-                mgadget = mgadget_dict[name]
+                href = data['href']
+                mgadget = mgadget_dict[href]
                 
                 self.assertMGadget(data, mgadget)
                 
@@ -139,7 +139,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
         mgadgets = sorted(self.seeds.mgadgets, key=mgadget_compare_func)
         
         for mgadget in mgadgets:
-            mgadget_dict[mgadget.name] = mgadget
+            mgadget_dict[mgadget.href] = mgadget
         
         url = f'{self.get_url()}?sort_order={sort_order}&sort_key={sort_key}'
 
@@ -150,8 +150,8 @@ class TestListMGadget(TestCase, MGadgetMixin):
             extras = result_json['extras']
             
             for data in datas:
-                name = data['name']
-                mgadget = mgadget_dict[name]
+                href = data['href']
+                mgadget = mgadget_dict[href]
                 
                 self.assertMGadget(data, mgadget)
                 

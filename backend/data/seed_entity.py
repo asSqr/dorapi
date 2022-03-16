@@ -4,6 +4,7 @@ from seeds import (
     SeedMBook,
     SeedMGadget,
     SeedGadgetBook,
+    SeedGadgetLink,
 )
 
 with transaction.atomic():
@@ -15,3 +16,6 @@ with transaction.atomic():
 
     gadget_books = SeedGadgetBook(mgadgets, mbooks).create()
     print(f'created {len(gadget_books)} gadget_books')
+    
+    gadget_links = SeedGadgetLink(mgadgets).create()
+    print(f'created {len(gadget_links)} gadget_links')

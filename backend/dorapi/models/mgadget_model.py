@@ -49,11 +49,19 @@ class MGadget(BaseModel):
     name = models.CharField(max_length=8192)
     ruby = models.CharField(max_length=8192)
     desc = models.CharField(max_length=8192)
+    href = models.CharField(max_length=8192)
     mbooks = models.ManyToManyField(
         'dorapi.MBook',
         related_name='mbooks',
         related_query_name='mbook',
         through='dorapi.GadgetBook',
+    )
+    linked_gadgets = models.ManyToManyField(
+        'self',
+        related_name='linked_mgadgets',
+        related_query_name='linked_mgadget',
+        through='dorapi.GadgetLink',
+        symmetrical=False,
     )
     
     objects = MGadgetQuerySet.as_soft_manager()

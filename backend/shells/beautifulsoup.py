@@ -98,3 +98,13 @@ inner_text_options = {
     'text': True,
     'recursive': True,
 }
+
+
+if __name__ == '__main__':
+    html_text = '''<div class="desc">「<a href="/gadget/sa#sugunaohru">スグナオール</a>」の試供品に同梱されていたパン。<br>
+効き目を試すために、食べるとおなかが痛くなる。<br>
+未来デパートが送ってきた試供品。</div>'''
+    
+    soup = generate_soup(html_text)
+    print(list(map(type, soup.div.contents)))
+    print(soup.div.renderContents().decode('utf-8'))

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from dorapi.models import MGadget
-from .gadgets.dora_superdatabase import superdatabase_datas as gadget_superdatabase_datas
+from .gadgets.dora_superdatabase import gadget_datas
 from .gadgets.utils import gadget_to_mgadget
 from commons.seed import Seed
 from typing import List
@@ -10,7 +10,7 @@ from typing import List
 class SeedMGadget(Seed):
 
     def create(self) -> List[MGadget]:
-        gadgets = gadget_superdatabase_datas
+        gadgets = gadget_datas
         mgadgets = []
 
         for gadget in gadgets:
