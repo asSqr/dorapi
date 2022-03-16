@@ -55,6 +55,13 @@ class MGadget(BaseModel):
         related_query_name='mbook',
         through='dorapi.GadgetBook',
     )
+    linked_gadgets = models.ManyToManyField(
+        'self',
+        related_name='mgadget',
+        related_query_name='mgadget',
+        through='dorapi.GadgetLink',
+        symmetrical=False,
+    )
     
     objects = MGadgetQuerySet.as_soft_manager()
     object_all = MGadgetQuerySet.as_manager()
