@@ -3,27 +3,27 @@ import sys
 sys.path.append('./backend/seeds/gadgets')
 sys.path.append('./backend/shells')
 
-from superbase_texts import html_texts
+from superbase_texts import html_texts      # noqa
 
-from bs4 import (
-    BeautifulSoup, Tag,
-    NavigableString
-)
+from bs4 import (      # noqa
+    BeautifulSoup, Tag,      # noqa
+    NavigableString      # noqa
+)      # noqa
 
-from beautifulsoup import (
-    generate_soup,
-    soup_find,
-    soup_find_all,
-    inner_text_options,
-)
+from beautifulsoup import (      # noqa
+    generate_soup,      # noqa
+    soup_find,      # noqa
+    soup_find_all,      # noqa
+    inner_text_options,      # noqa
+)      # noqa
 
-from data_struct import (
-    Gadget,
-    Link,
-    BookSeriesEnum,
-)
+from data_struct import (      # noqa
+    Gadget,      # noqa
+    Link,      # noqa
+    BookSeriesEnum,      # noqa
+)      # noqa
 
-from typing import List, Tuple
+from typing import List, Tuple      # noqa
 
 GADGET_ARTICLE_PATH = 'article'
 
