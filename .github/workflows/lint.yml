@@ -1,0 +1,38 @@
+name: ci-python
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "**.py"
+
+env:
+  TARGET_BRANCH: ${{ github.base_ref }}
+
+jobs:
+  lint-and-test:
+    name: Lint and test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch target branch
+        run: git fetch --depth 1 origin ${{ env.TARGET_BRANCH }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Lint with flake8
+        run: |
+          for file in $(git diff origin/${{ env.TARGET_BRANCH }} HEAD --diff-filter=AM --name-only -- "*.py") ; do
+            echo ${file}
+            flake8 ${file} --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W293, W503, W504"
+            sleep 1
+          done

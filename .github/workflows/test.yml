@@ -6,10 +6,12 @@ on:
       - develop
     paths:
       - "**.py"
+
 env:
   TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
   COVERAGE_REPORT_TXT: backend/coverage_report.txt
+
 jobs:
   lint-and-test:
     name: Lint and test
@@ -37,17 +39,6 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install flake8
-        run: pip install flake8
-
-      - name: Lint with flake8
-        run: |
-          for file in $(git diff origin/${{ env.TARGET_BRANCH }} HEAD --diff-filter=AM --name-only -- "*.py") ; do
-            echo ${file}
-            flake8 ${file} --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E501, W293, W503, W504"
-            sleep 1
-          done
-
       - name: Start backend api
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
@@ -62,27 +53,6 @@ jobs:
         run: |
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
           echo "test done"
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} touch /${{ env.COVERAGE_REPORT_TXT }}
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/sh -c "coverage report > /${{ env.COVERAGE_REPORT_TXT }}"
-          echo "coverage report done"
 
-      - name: Convert coverage report markdown
-        run: docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python /backend/cicd/coverage_trance_md.py /${{ env.COVERAGE_REPORT_TXT }}
-
-      - name: Read coverage report
-        id: read-coverage-report
-        uses: juliangruber/read-file-action@v1.0.0
-        with:
-          path: ./${{ env.COVERAGE_REPORT_TXT }}
-
-      - name: Remove coverage report
-        run: rm -f ./${{ env.COVERAGE_REPORT_TXT }}
-
-      - name: Comment pull-request coverage report
-        uses: marocchino/sticky-pull-request-comment@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          header: coverage-report
-          message: |
-            ## Coverage report
-            ${{ steps.read-coverage-report.outputs.content }}
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2

@@ -181,6 +181,12 @@ def get_gadget_info(
                 # TODO: 未対応のリンク (例: /misc/a)
                 if content.name == ANCHOR_TAG:
                     
+                    render_content = (
+                        content.renderContents().decode('utf-8')
+                    )
+                    
+                    desc += render_content
+                    
                     continue
                 
                 if content.name == STYLE_TAG or content.name == SPAN_TAG:
