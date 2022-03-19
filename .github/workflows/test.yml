@@ -1,0 +1,64 @@
+name: test-python
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "**.py"
+
+env:
+  TARGET_BRANCH: ${{ github.base_ref }}
+  BACKEND_DOCKER_COMPOSE_NAME: backend
+  COVERAGE_REPORT_TXT: coverage.txt
+
+jobs:
+  lint-and-test:
+    name: Django Test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create env file
+        run: |
+          cat << EOF >> .env
+          SECRET_KEY=${{ secrets.DJANGO_API_KEY }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_ENDPOINT=${{ secrets.DB_ENDPOINT }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          EOF
+
+      - name: Fetch target branch
+        run: git fetch --depth 1 origin ${{ env.TARGET_BRANCH }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Start backend api
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+        run: |
+          docker-compose up -d
+          sleep 5
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py makemigrations
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} python manage.py migrate
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/bash -c "python ./manage.py shell < ./data/seed_entity.py"
+
+      - name: Test and create coverage
+        run: |
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
+          echo "test done"
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage report > ${{ env.COVERAGE_REPORT_TXT }}
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          file: ./coverage.txt
+          name: codecov-umbrella
+          fail_ci_if_error: true
