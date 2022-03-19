@@ -1,4 +1,6 @@
 # Doraemon API
+[![codecov](https://codecov.io/gh/asSqr/dorapi/branch/main/graph/badge.svg?token=beNGa1fXR3)](https://codecov.io/gh/asSqr/dorapi)
+
 ドラえもんのひみつ道具等のデータを提供します．
 
 ## virtualenv activate
