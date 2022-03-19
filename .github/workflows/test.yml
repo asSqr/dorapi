@@ -11,7 +11,7 @@ on:
 env:
   TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
-  COVERAGE_REPORT_TXT: backend/coverage_report.txt
+  COVERAGE_REPORT_TXT: codecov.yml
 
 jobs:
   lint-and-test:
@@ -54,6 +54,7 @@ jobs:
         run: |
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
           echo "test done"
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} /bin/sh -c "coverage report > /${{ env.COVERAGE_REPORT_TXT }}"
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
