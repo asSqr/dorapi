@@ -1,4 +1,5 @@
-name: ci-python
+name: lint-python
+
 on:
   pull_request:
     branches:
@@ -12,7 +13,7 @@ env:
 
 jobs:
   lint-and-test:
-    name: Lint and test
+    name: Lint with flake8
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
