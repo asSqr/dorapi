@@ -178,7 +178,7 @@ def get_gadget_info(
                     
                     continue
                 
-                # TODO: 未対応のリンク (例: /misc/a)
+                # TODO: 未対応のリンク (例: /misc/a, /place/a)
                 if content.name == ANCHOR_TAG:
                     
                     render_content = (
