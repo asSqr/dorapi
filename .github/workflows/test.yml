@@ -56,7 +56,8 @@ jobs:
         run: |
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
           echo "test done"
-          echo "`docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage xml`" > "${{ env.COVERAGE_REPORT_XML }}"
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage xml
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} cat coverage.xml > ${{ env.COVERAGE_REPORT_XML }}
           cat "${{ env.COVERAGE_REPORT_XML }}"
 
       - name: Upload Coverage to Codecov
