@@ -58,10 +58,11 @@ jobs:
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
           echo "test done"
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage report > ${{ env.COVERAGE_REPORT_TXT }}
+          cat ${{ env.COVERAGE_REPORT_TXT }}
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          file: ./coverage.txt
+          file: ${{ env.COVERAGE_REPORT_TXT }}
           name: codecov-umbrella
           fail_ci_if_error: true
