@@ -24,7 +24,7 @@ class TestGetMGadget(TestCase, MGadgetMixin):
         取得
         """
         
-        mgadget = self.seeds.mgadgets[0]
+        mgadget = self.seeds.mgadgets[8]
         target_id = str(mgadget.id)
 
         url = self.get_url(id=target_id)
