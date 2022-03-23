@@ -14,7 +14,7 @@ on:
 env:
   TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
-  COVERAGE_REPORT_TXT: coverage.txt
+  COVERAGE_REPORT_TXT: coverage.xml
 
 jobs:
   lint-and-test:
@@ -57,13 +57,13 @@ jobs:
         run: |
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage run --source='.' manage.py test
           echo "test done"
-          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage report > ${{ env.COVERAGE_REPORT_TXT }}
-          cat ${{ env.COVERAGE_REPORT_TXT }}
+          docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage xml > ${{ env.COVERAGE_REPORT_XML }}
+          cat ${{ env.COVERAGE_REPORT_XML }}
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ${{ env.COVERAGE_REPORT_TXT }}
+          file: ${{ env.COVERAGE_REPORT_XML }}
           name: codecov-umbrella
           fail_ci_if_error: true
