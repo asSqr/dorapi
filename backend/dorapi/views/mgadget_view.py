@@ -15,7 +15,7 @@ class MGadgetView(SingleViewSet):
 
     serializer_class_dict = {
         'list': serializers.MGadgetReadDataListSerializer,
-        'retrieve': serializers.MGadgetReadDataSerializer,
+        'retrieve': serializers.MGadgetDataSerializer,
     }
 
     use_case_dict = {
