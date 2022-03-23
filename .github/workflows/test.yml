@@ -14,7 +14,7 @@ on:
 env:
   TARGET_BRANCH: ${{ github.base_ref }}
   BACKEND_DOCKER_COMPOSE_NAME: backend
-  COVERAGE_REPORT_TXT: coverage.xml
+  COVERAGE_REPORT_XML: coverage.xml
 jobs:
   lint-and-test:
     name: Django Test
