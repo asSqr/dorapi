@@ -58,8 +58,8 @@ jobs:
           echo "test done"
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} coverage xml
           docker-compose exec -T ${{ env.BACKEND_DOCKER_COMPOSE_NAME }} cat coverage.xml > ${{ env.COVERAGE_REPORT_XML }}
-          cat "${{ env.COVERAGE_REPORT_XML }}"
-
+          cat "coverage report done"
+          
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
