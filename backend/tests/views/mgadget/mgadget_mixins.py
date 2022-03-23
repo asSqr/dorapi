@@ -13,7 +13,8 @@ class MGadgetMixin:
         for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
             self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)
             self.assertEqual(book['volume'], mbook.volume)
-            
+    
+    def assertGadgetLinks(self, data: Dict[str, Any], mgadget: MGadget):
         gadgetlinks = (
             GadgetLink.objects
             .filter_eq_mgadget(mgadget)

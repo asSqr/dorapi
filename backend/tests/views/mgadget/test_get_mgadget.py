@@ -35,5 +35,6 @@ class TestGetMGadget(TestCase, MGadgetMixin):
             data = result_json['data']
             
             self.assertMGadget(data, mgadget)
+            self.assertGadgetLinks(data, mgadget)
 
         check_response()
