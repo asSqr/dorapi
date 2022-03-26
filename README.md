@@ -24,3 +24,27 @@ sh ./backend/shells/db_reset.sh
 ```
 flake8 . --count --show-source --statistics --ignore="F401, F403, F405, E111, E114, E121, E402, E501, W293, W503, W504"
 ```
+
+## deploy for Heroku (自分用メモ)
+Heroku へログイン
+
+```
+heroku login
+```
+
+docker イメージを push
+```
+cd ./backend
+heroku container:push web -a dorapi
+heroku release:push web -a dorapi
+```
+
+必要なら
+```
+heroku ps:scale web=1 -a dorapi
+```
+
+DB データをローカルからコピー
+```
+PGUSER=$DB_USERNAME PGPASSWORD=$DB_PASSWORD PGHOST=127.0.0.1 heroku pg:push dorapi DATABASE_URL --app dorapi
+```
