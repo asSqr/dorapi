@@ -1,6 +1,10 @@
 from typing import Optional, List
 
-from django.db import models
+from django.db.models import (
+    Q,
+    Case, When, Value,
+    IntegerField, CharField, ManyToManyField
+)
 from django.core.paginator import Paginator, Page
 
 from commons.models import BaseModel, QuerySet
@@ -21,14 +25,32 @@ class MGadgetQuerySet(QuerySet):
         return self.filter(id=id_)
     
     def filter_or_keyword(self, keyword: str) -> 'MGadgetQuerySet':
-        q = models.Q()
+        q1 = Q()
+        q2 = Q()
         search_keywords = ['name', 'ruby', 'desc', 'mbooks__series', 'mbooks__volume']
         
         for k in keyword.strip().split():
             for c in search_keywords:
-                q = q | models.Q(**{f'{c}__icontains': k})
+                q1 = q1 | Q(**{f'{c}': k})
         
-        return self.filter(q)
+        for k in keyword.strip().split():
+            for c in search_keywords:
+                q2 = q2 | Q(**{f'{c}__icontains': k})
+                
+        # exact な一致を優先
+        ret_q = (
+            self.filter(q1 | q2).annotate(
+                search_type_ordering=Case(
+                    When(q1, then=Value(1)),
+                    When(q2, then=Value(0)),
+                    default=Value(-1),
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by('-search_type_ordering')
+        )
+        
+        return ret_q
 
     def sort_by_key(self, sort_key: str, sort_order: bool = True) -> 'MGadgetQuerySet':
         sgn = '' if sort_order else '-'
@@ -46,17 +68,17 @@ class MGadget(BaseModel):
     ドラえもんひみつ道具
     '''
     
-    name = models.CharField(max_length=8192)
-    ruby = models.CharField(max_length=8192)
-    desc = models.CharField(max_length=8192)
-    href = models.CharField(max_length=8192)
-    mbooks = models.ManyToManyField(
+    name = CharField(max_length=8192)
+    ruby = CharField(max_length=8192)
+    desc = CharField(max_length=8192)
+    href = CharField(max_length=8192)
+    mbooks = ManyToManyField(
         'dorapi.MBook',
         related_name='mbooks',
         related_query_name='mbook',
         through='dorapi.GadgetBook',
     )
-    linked_gadgets = models.ManyToManyField(
+    linked_gadgets = ManyToManyField(
         'self',
         related_name='linked_mgadgets',
         related_query_name='linked_mgadget',

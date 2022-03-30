@@ -47,7 +47,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
 
         check_response()
 
-    def test_list_mgadgets_keyword(self):
+    def test_list_mgadgets_not_exact_keyword(self):
         """
         キーワードによる検索
         """
@@ -79,6 +79,53 @@ class TestListMGadget(TestCase, MGadgetMixin):
             def check_response():
                 datas = result_json['datas']
                 extras = result_json['extras']
+                
+                for data in datas:
+                    href = data['href']
+                    mgadget = mgadget_dict[href]
+                
+                    self.assertMGadget(data, mgadget)
+                    
+                self.assertEqual(extras['count'], len(filtered_mgadgets))
+
+            check_response()
+            
+    def test_list_mgadgets_exact_keyword(self):
+        """
+        キーワードによる検索
+        """
+        
+        keywords = ['どこでもどあ', 'ほんやくこんにゃく']
+        
+        for keyword in keywords:
+        
+            def keyword_filter_func(mgadget):
+                mbooks = mgadget.mbooks.all()
+                
+                return keyword in mgadget.name\
+                    or keyword in mgadget.ruby\
+                    or keyword in mgadget.desc\
+                    or keyword in map(lambda mbook: mbook.series, mbooks)\
+                    or keyword in map(lambda mbook: mbook.volume, mbooks)
+            
+            filtered_mgadgets = list(filter(keyword_filter_func, self.seeds.mgadgets))
+            
+            mgadget_dict = {}
+            
+            for mgadget in filtered_mgadgets:
+                mgadget_dict[mgadget.href] = mgadget
+            
+            url = f'{self.get_url()}?keyword={keyword}'
+
+            result_json = self.request.get(url).json()
+
+            def check_response():
+                datas = result_json['datas']
+                extras = result_json['extras']
+                
+                # 完全一致が優先されているか
+                top_data = datas[0]
+                self.assertEqual(top_data['ruby'], keyword)
                 
                 for data in datas:
                     href = data['href']
