@@ -9,6 +9,7 @@ class MGadgetProcess:
 
     def filter_or_query_param(self, keyword):
         if keyword is not None:
+
             self.mgadget_queryset = (
                 self.mgadget_queryset.filter_or_keyword(keyword)
             )
