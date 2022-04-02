@@ -15,6 +15,13 @@ python ./backend/shells/gadgets/dora_superdatabase.py > ./backend/seeds/gadgets/
 ```
 を実行．ひみつ道具 (`gadgets`) 以外も同様 (後に追加)．
 
+その後，`image_url` 等は
+```
+python ./backend/shells/custom_search/custom_search.py > ./backend/seeds/gadgets/_dora_superdatabase.py
+mv ./backend/seeds/gadgets/_dora_superdatabase.py ./backend/seeds/gadgets/dora_superdatabase.py
+```
+で取得．
+
 ## DB リセット / Seed 投入
 ```
 sh ./backend/shells/db_reset.sh

@@ -2,9 +2,9 @@ import sys
 
 sys.path.append('./backend')        # noqa
 
-from dataclasses import dataclass        # noqa
+from dataclasses import dataclass, field        # noqa
 from dorapi.enums import BookSeriesEnum        # noqa
-from typing import List        # noqa
+from typing import List, Optional        # noqa
 
 
 @dataclass
@@ -28,6 +28,8 @@ class Gadget:
     href: str
     desc: str
     books: List[Book]
+    image_url: Optional[str] = field(default=None)
+    total_results: Optional[int] = field(default=None)
 
     def __str__(self) -> str:
         book_list = []
