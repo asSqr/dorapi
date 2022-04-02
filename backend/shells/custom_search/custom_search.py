@@ -1,6 +1,7 @@
 from constants import (
     GOOGLE_BASE_URL,
     GOOGLE_CUSTOM_SEARCH_PATH,
+    GOOGLE_CUSTOM_DORA_SUFFIX,
     WAIT_SECONDS,
 )
 from utils import generate_query
@@ -52,11 +53,11 @@ def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     url = f'{GOOGLE_BASE_URL}{GOOGLE_CUSTOM_SEARCH_PATH}?{query}'
     
     resp = requests.get(url).json()
-    images = resp['items']
-    infos = resp['searchInformation']
+    images = resp.get('items', [{'link': ''}])
+    infos = resp.get('searchInformation', {})
     
     image_url = images[0]['link']
-    total_results = infos['totalResults']
+    total_results = infos.get('totalResults')
     
     return SearchInfo(
         image_url=image_url,
@@ -66,7 +67,8 @@ def get_image_url_from_google(gadget_name: str) -> SearchInfo:
 
 def crawler() -> None:
     for gadget in gadget_datas:
-        search_info = get_image_url_from_google(gadget.name)
+        search_keyword = f'{gadget.name}{GOOGLE_CUSTOM_DORA_SUFFIX}'
+        search_info = get_image_url_from_google(search_keyword)
         gadget.image_url = search_info.image_url
         gadget.total_results = search_info.total_results
         
