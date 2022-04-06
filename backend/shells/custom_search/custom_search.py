@@ -11,7 +11,6 @@ import dotenv
 import time
 import os
 import sys
-import requests
 from urllib.parse import quote
 from dataclasses import dataclass
 import asyncio
