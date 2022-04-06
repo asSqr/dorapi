@@ -32,6 +32,7 @@ GOOGLE_API_KEY=...
 ```
 
 `SECRET_KEY` は任意 (例：`@gey=ud2=ry+_3_u(=jsh9b*y743i=8odr@4ocx5tt*^n6)bqi`)
+
 `CSE_ID` と `GOOGLE_API_KEY` は Google Custom Search API の使用法を参照．
 
 ## dora_superdatabase seed 作成
@@ -40,8 +41,6 @@ root directory で
 python ./backend/shells/gadgets/dora_superdatabase.py 1> ./backend/seeds/gadgets/dora_superdatabase.py
 ```
 を実行．ひみつ道具 (`gadgets`) 以外も同様 (後に追加)．
-```
-で取得．
 
 ## DB リセット / Seed 投入
 ```
