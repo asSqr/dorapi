@@ -67,17 +67,7 @@ async def process(gadget: Gadget) -> None:
     
     print(f'#{search_info.total_results}: {search_info.image_url}', file=sys.stderr)
     
-    if gadget.image_url is None:
-        time.sleep(GoogleAPIConfig.WAIT_SECONDS)
-        await process(gadget)
-        return
-    
     gadget.total_results = search_info.total_results
-    
-    if gadget.total_results is None:
-        time.sleep(GoogleAPIConfig.WAIT_SECONDS)
-        await process(gadget)
-        return
 
 
 def worker(gadgets: List[Gadget]) -> None:
