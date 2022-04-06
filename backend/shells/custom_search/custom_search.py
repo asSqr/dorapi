@@ -5,7 +5,7 @@ from .constants import (
     WAIT_SECONDS,
 )
 from .utils import generate_query
-from .async_request import get
+from .async_request import get as async_get
 
 import dotenv
 import time
@@ -52,7 +52,7 @@ async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     
     url = f'{GOOGLE_BASE_URL}{GOOGLE_CUSTOM_SEARCH_PATH}?{query}'
     
-    resp = get(url)
+    resp = await async_get(url)
     images = resp.get('items', [{'link': None}])
     infos = resp.get('searchInformation', {})
     
