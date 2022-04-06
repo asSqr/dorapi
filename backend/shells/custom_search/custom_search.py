@@ -18,7 +18,7 @@ from typing import List
 
 sys.path.append('./backend/seeds/gadgets')
 
-from data_struct import Gadget
+from data_struct import Gadget      # noqa
 
 
 dotenv.load_dotenv()
