@@ -318,9 +318,11 @@ def get_gadgets() -> Tuple[List[Gadget], List[Link]]:
 
 (gadgets, links) = get_gadgets()
 
+print(f'#gadgets: {len(gadgets)}')
 
-# image_url 等取得
-worker(gadgets)
+if len(gadgets) < 3000:
+    # image_url 等取得
+    worker(gadgets)
 
 
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)
