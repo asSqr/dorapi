@@ -1,4 +1,5 @@
 asgiref==3.5.0
+asyncio==3.4.3
 backports.zoneinfo==0.2.1
 beautiful==0.0.2
 beautifulsoup4==4.10.0
