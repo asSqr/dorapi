@@ -8,6 +8,32 @@
 . ./dorapi-env/bin/activate
 ```
 
+## `.env` ファイル作成
+直下に作成．内容は以下：
+```
+#!/bin/bash
+
+# [ENV]
+ENV=local
+
+# [DB]
+DB_NAME=dorapi
+DB_USERNAME=admin
+DB_PASSWORD=password
+DB_ENDPOINT=db
+DB_PORT=5432
+
+# [Django]
+SECRET_KEY=...
+
+# Google Custom Search
+CSE_ID=...          # Custom Search Engine ID
+GOOGLE_API_KEY=...
+```
+
+`SECRET_KEY` は任意 (例：`@gey=ud2=ry+_3_u(=jsh9b*y743i=8odr@4ocx5tt*^n6)bqi`)
+`CSE_ID` と `GOOGLE_API_KEY` は Google Custom Search API の使用法を参照．
+
 ## dora_superdatabase seed 作成
 root directory で
 ```

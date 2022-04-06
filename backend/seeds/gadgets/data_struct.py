@@ -35,9 +35,20 @@ class Gadget:
         book_list = []
         
         for book in self.books:
+            series = None
+            volume = None
+            
+            if isinstance(book, dict):
+                series = book['series'].value
+                volume = book['volume']
+            if hasattr(book, 'series'):
+                series = book.series.value
+            if hasattr(book, 'volume'):
+                volume = book.volume
+            
             book_list.append(f"Book(\
-series=BookSeriesEnum('{book['series'].value}'), \
-volume='{book['volume']}')")
+series=BookSeriesEnum('{series}'), \
+volume='{volume}')")
             
         books_str = f"[{', '.join(book_list)}]"
         
