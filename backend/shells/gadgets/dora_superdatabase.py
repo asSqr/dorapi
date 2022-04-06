@@ -27,7 +27,7 @@ from typing import List, Tuple      # noqa
 
 sys.path.append('backend/seeds/gadgets')
 
-from custom_search import worker
+from custom_search import worker        # noqa
 
 
 GADGET_ARTICLE_PATH = 'article'
