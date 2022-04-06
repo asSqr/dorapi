@@ -1,4 +1,3 @@
-import time
 import sys
 
 sys.path.append('./backend/seeds/gadgets')
@@ -320,7 +319,8 @@ def get_gadgets() -> Tuple[List[Gadget], List[Link]]:
 (gadgets, links) = get_gadgets()
 
 
-crawler()
+# image_url 等取得
+worker(gadgets)
 
 
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)

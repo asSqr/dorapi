@@ -1,1 +1,1 @@
-from custom_search import worker        # noqa
+from .custom_search import worker        # noqa

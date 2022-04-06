@@ -1,10 +1,10 @@
-from constants import (
+from .constants import (
     GOOGLE_BASE_URL,
     GOOGLE_CUSTOM_SEARCH_PATH,
     GOOGLE_CUSTOM_DORA_SUFFIX,
     WAIT_SECONDS,
 )
-from utils import generate_query
+from .utils import generate_query
 
 import dotenv
 import time
