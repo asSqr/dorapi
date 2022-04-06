@@ -1,22 +1,18 @@
 import asyncio
 import aiohttp
 from simplejson import JSONDecodeError
-
-
-FAIL_POST_RETRIES = 5
-POST_INTERVAL = 3
-FAIL_POST_INTERVAL = 1
+from .config import RequestConfig
 
 
 async def retries(func, args, kwargs):
     error = Exception()
-    for _ in range(FAIL_POST_RETRIES):
+    for _ in range(RequestConfig.FAIL_POST_RETRIES):
         try:
             res = await func(*args, **kwargs)
-            await asyncio.sleep(POST_INTERVAL)
+            await asyncio.sleep(RequestConfig.POST_INTERVAL)
             return res
         except Exception as e:
-            await asyncio.sleep(FAIL_POST_INTERVAL)
+            await asyncio.sleep(RequestConfig.FAIL_POST_INTERVAL)
             error = e
     raise error
 
@@ -27,7 +23,7 @@ async def jsonize(resp):
     except JSONDecodeError:
         msg = await resp.read()
         print(msg)
-        raise Exception(msg)
+        raise JSONDecodeError(msg)
 
 
 async def _get(*args, **kwargs):

@@ -1,13 +1,8 @@
-from .constants import (
-    GOOGLE_BASE_URL,
-    GOOGLE_CUSTOM_SEARCH_PATH,
-    GOOGLE_CUSTOM_DORA_SUFFIX,
-    WAIT_SECONDS,
-)
+from .config import GoogleAPIConfig
 from .utils import generate_query
 from .async_request import get as async_get
 
-import dotenv
+from dotenv import load_dotenv
 import time
 import os
 import sys
@@ -21,7 +16,7 @@ sys.path.append('./backend/seeds/gadgets')
 from data_struct import Gadget      # noqa
 
 
-dotenv.load_dotenv()
+load_dotenv()
 
 
 @dataclass
@@ -50,7 +45,7 @@ async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     
     query = generate_query(query_dict)
     
-    url = f'{GOOGLE_BASE_URL}{GOOGLE_CUSTOM_SEARCH_PATH}?{query}'
+    url = f'{GoogleAPIConfig.GOOGLE_BASE_URL}{GoogleAPIConfig.GOOGLE_CUSTOM_SEARCH_PATH}?{query}'
     
     resp = await async_get(url)
     images = resp.get('items', [{'link': None}])
@@ -66,21 +61,21 @@ async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
 
 
 async def process(gadget: Gadget) -> None:
-    search_keyword = f'{gadget.name}{GOOGLE_CUSTOM_DORA_SUFFIX}'
+    search_keyword = f'{gadget.name}{GoogleAPIConfig.GOOGLE_CUSTOM_DORA_SUFFIX}'
     search_info = await get_image_url_from_google(search_keyword)
     gadget.image_url = search_info.image_url
     
     print(f'#{search_info.total_results}: {search_info.image_url}', file=sys.stderr)
     
     if gadget.image_url is None:
-        time.sleep(WAIT_SECONDS)
+        time.sleep(GoogleAPIConfig.WAIT_SECONDS)
         await process(gadget)
         return
     
     gadget.total_results = search_info.total_results
     
     if gadget.total_results is None:
-        time.sleep(WAIT_SECONDS)
+        time.sleep(GoogleAPIConfig.WAIT_SECONDS)
         await process(gadget)
         return
 
