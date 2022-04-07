@@ -3,7 +3,8 @@ from typing import Optional, List
 from django.db.models import (
     Q,
     Case, When, Value,
-    IntegerField, CharField, ManyToManyField
+    IntegerField, CharField, ManyToManyField,
+    BigIntegerField,
 )
 from django.core.paginator import Paginator, Page
 
@@ -73,7 +74,7 @@ class MGadget(BaseModel):
     desc = CharField(max_length=8192)
     href = CharField(max_length=8192)
     image_url = CharField(max_length=8192, null=True)
-    total_results = IntegerField(null=True)
+    total_results = BigIntegerField(null=True)
     mbooks = ManyToManyField(
         'dorapi.MBook',
         related_name='mbooks',

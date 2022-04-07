@@ -14,6 +14,8 @@ class MGadgetInfoSerializer(serializers.Serializer):
     ruby = serializers.CharField()
     href = serializers.CharField()
     desc = serializers.CharField()
+    image_url = serializers.CharField()
+    total_results = serializers.IntegerField()
     mbooks = MGadgetMBookSerializer(read_only=True, many=True)
 
 
@@ -23,6 +25,8 @@ class MGadgetReadSerializer(serializers.Serializer):
     ruby = serializers.CharField()
     href = serializers.CharField()
     desc = serializers.CharField()
+    image_url = serializers.CharField()
+    total_results = serializers.IntegerField()
     mbooks = MGadgetMBookSerializer(read_only=True, many=True)
     linked_gadgets = MGadgetInfoSerializer(read_only=True, many=True)
 
@@ -39,6 +43,8 @@ class MGadgetSerializer(serializers.Serializer):
     ruby = serializers.CharField()
     href = serializers.CharField()
     desc = serializers.CharField()
+    image_url = serializers.CharField()
+    total_results = serializers.IntegerField()
     mbooks = MGadgetMBookSerializer(read_only=True, many=True)
     links = GadgetLinkSerializer(read_only=True, many=True)
 
