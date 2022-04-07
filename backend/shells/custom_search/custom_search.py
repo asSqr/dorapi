@@ -1,6 +1,5 @@
 from .config import GoogleAPIConfig
 from .utils import generate_query
-from .async_request import get as async_get
 
 from dotenv import load_dotenv
 import time
@@ -8,7 +7,7 @@ import os
 import sys
 from urllib.parse import quote
 from dataclasses import dataclass
-import asyncio
+import requests
 from typing import List
 
 sys.path.append('./backend/seeds/gadgets')
@@ -25,7 +24,7 @@ class SearchInfo:
     total_results: int
 
 
-async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
+def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     
     CSE_ID = os.getenv('CSE_ID')
     GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -47,7 +46,7 @@ async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     
     url = f'{GoogleAPIConfig.GOOGLE_BASE_URL}{GoogleAPIConfig.GOOGLE_CUSTOM_SEARCH_PATH}?{query}'
     
-    resp = await async_get(url)
+    resp = requests.get(url).json()
     images = resp.get('items', [{'link': None}])
     infos = resp.get('searchInformation', {})
     
@@ -60,19 +59,18 @@ async def get_image_url_from_google(gadget_name: str) -> SearchInfo:
     )
 
 
-async def process(gadget: Gadget) -> None:
+def process(gadget: Gadget) -> None:
     search_keyword = f'{gadget.name}{GoogleAPIConfig.GOOGLE_CUSTOM_DORA_SUFFIX}'
-    search_info = await get_image_url_from_google(search_keyword)
+    search_info = get_image_url_from_google(search_keyword)
     gadget.image_url = search_info.image_url
     
     print(f'#{search_info.total_results}: {search_info.image_url}', file=sys.stderr)
     
     gadget.total_results = search_info.total_results
+    
+    time.sleep(GoogleAPIConfig.WAIT_SECONDS)
 
 
 def worker(gadgets: List[Gadget]) -> None:
-    loop = asyncio.get_event_loop()
-    gather = asyncio.gather(
-        *[process(gadget) for gadget in gadgets]
-    )
-    loop.run_until_complete(gather)
+    for gadget in gadgets:
+        process(gadget)
