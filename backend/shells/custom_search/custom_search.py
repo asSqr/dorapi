@@ -64,13 +64,19 @@ def process(gadget: Gadget) -> None:
     search_info = get_image_url_from_google(search_keyword)
     gadget.image_url = search_info.image_url
     
-    print(f'#{search_info.total_results}: {search_info.image_url}', file=sys.stderr)
+    print(f'{search_info.total_results} {search_info.image_url}', file=sys.stderr)
     
     gadget.total_results = search_info.total_results
     
     time.sleep(GoogleAPIConfig.WAIT_SECONDS)
+    
+    return gadget
 
 
-def worker(gadgets: List[Gadget]) -> None:
+def worker(gadgets: List[Gadget]) -> List[Gadget]:
+    gadget_list = []
+    
     for gadget in gadgets:
-        process(gadget)
+        gadget_list.append(process(gadget))
+    
+    return gadget_list

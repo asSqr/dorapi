@@ -322,7 +322,7 @@ print(f'#gadgets: {len(gadgets)}', file=sys.stderr)
 
 if len(gadgets) < 3000:
     # image_url 等取得
-    worker(gadgets)
+    gadgets = worker(gadgets)
 
 
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)
