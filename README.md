@@ -35,10 +35,10 @@ GOOGLE_API_KEY=...
 
 `CSE_ID` と `GOOGLE_API_KEY` は Google Custom Search API の使用法を参照．
 
-## dora_superdatabase seed 作成
+## dora_superdatabase seed 作成 (お金かかるのでやらないでください．すでにシードはあります．)
 root directory で
 ```
-python ./backend/shells/gadgets/dora_superdatabase.py 1> ./backend/seeds/gadgets/dora_superdatabase.py
+python ./backend/shells/gadgets/dora_superdatabase.py 1> ./backend/seeds/gadgets/dora_superdatabase.py 2> ./backend/seeds/gadgets/dora_superdatabase_log.txt
 ```
 を実行．ひみつ道具 (`gadgets`) 以外も同様 (後に追加)．
 
