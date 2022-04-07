@@ -72,8 +72,8 @@ class MGadget(BaseModel):
     ruby = CharField(max_length=8192)
     desc = CharField(max_length=8192)
     href = CharField(max_length=8192)
-    image_url = CharField(max_length=8192, required=False)
-    total_results = IntegerField(required=False)
+    image_url = CharField(max_length=8192, null=True)
+    total_results = IntegerField(null=True)
     mbooks = ManyToManyField(
         'dorapi.MBook',
         related_name='mbooks',
