@@ -54,7 +54,7 @@ volume='{volume}')")
         
         return f"Gadget(name='{self.name}', ruby='{self.ruby}', \
 href='{self.href}', desc='{self.desc}', \
-books={books_str}, image_url='{self.image_url}', total_results={self.total_results})".replace('\n', '\\n')
+books={books_str}, image_url={f"'{self.image_url}'" if self.image_url is not None else None}, total_results={self.total_results})".replace('\n', '\\n')
 
 
 @dataclass
