@@ -47,14 +47,14 @@ class Gadget:
                 volume = book.volume
             
             book_list.append(f"Book(\
-series=BookSeriesEnum('{series}'), \
-volume='{volume}')")
+series=BookSeriesEnum({series!r}), \
+volume={volume!r})")
             
         books_str = f"[{', '.join(book_list)}]"
         
-        return f"Gadget(name='{self.name}', ruby='{self.ruby}', \
-href='{self.href}', desc='{self.desc}', \
-books={books_str}, image_url={f"'{self.image_url}'" if self.image_url is not None else None}, total_results={self.total_results})".replace('\n', '\\n')
+        return f"Gadget(name={self.name!r}, ruby={self.ruby!r}, \
+href={self.href!r}, desc={self.desc!r}, \
+books={books_str}, image_url={self.image_url!r}, total_results={self.total_results})".replace('\n', '\\n')
 
 
 @dataclass
