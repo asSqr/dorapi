@@ -42,6 +42,12 @@ python ./backend/shells/gadgets/dora_superdatabase.py 1> ./backend/seeds/gadgets
 ```
 を実行．ひみつ道具 (`gadgets`) 以外も同様 (後に追加)．
 
+## Build・起動
+```
+docker-compose build
+docker-compose up -d
+```
+
 ## DB リセット / Seed 投入
 ```
 sh ./backend/shells/db_reset.sh
