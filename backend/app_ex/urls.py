@@ -9,7 +9,7 @@ urlpatterns = [
     path('openapi-schema/', SchemaView.as_view(
         renderer_classes=None,
         schema_generator=SchemaGenerator(
-            title='AlphaHatchu',
+            title='dorapi',
             url=None,
             description=None,
             urlconf=None,
