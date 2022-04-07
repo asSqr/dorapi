@@ -79,5 +79,5 @@ heroku ps:scale web=1 -a dorapi
 
 DB データをローカルからコピー
 ```
-PGUSER=$DB_USERNAME PGPASSWORD=$DB_PASSWORD PGHOST=127.0.0.1 heroku pg:push dorapi DATABASE_URL --app dorapi
+PGUSER=admin PGPASSWORD=password PGHOST=127.0.0.1 heroku pg:push dorapi DATABASE_URL --app dorapi
 ```
