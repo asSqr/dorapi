@@ -9,6 +9,8 @@ class MGadgetMixin:
         self.assertEqual(data['name'], mgadget.name)
         self.assertEqual(data['ruby'], mgadget.ruby)
         self.assertEqual(data['desc'], mgadget.desc)
+        self.assertEqual(data['image_url'], mgadget.image_url)
+        self.assertEqual(data['total_results'], mgadget.total_results)
         
         for book, mbook in zip(data['mbooks'], mgadget.mbooks.all()):
             self.assertEqual(BookSeriesEnum[book['series']].value, mbook.series)

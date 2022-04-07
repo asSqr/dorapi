@@ -2,9 +2,9 @@ import sys
 
 sys.path.append('./backend')        # noqa
 
-from dataclasses import dataclass        # noqa
+from dataclasses import dataclass, field        # noqa
 from dorapi.enums import BookSeriesEnum        # noqa
-from typing import List        # noqa
+from typing import List, Optional        # noqa
 
 
 @dataclass
@@ -28,20 +28,33 @@ class Gadget:
     href: str
     desc: str
     books: List[Book]
+    image_url: Optional[str] = field(default=None)
+    total_results: Optional[int] = field(default=None)
 
     def __str__(self) -> str:
         book_list = []
         
         for book in self.books:
+            series = None
+            volume = None
+            
+            if isinstance(book, dict):
+                series = book['series'].value
+                volume = book['volume']
+            if hasattr(book, 'series'):
+                series = book.series.value
+            if hasattr(book, 'volume'):
+                volume = book.volume
+            
             book_list.append(f"Book(\
-series=BookSeriesEnum('{book['series'].value}'), \
-volume='{book['volume']}')")
+series=BookSeriesEnum({series!r}), \
+volume={volume!r})")
             
         books_str = f"[{', '.join(book_list)}]"
         
-        return f"Gadget(name='{self.name}', ruby='{self.ruby}', \
-href='{self.href}', desc='{self.desc}', \
-books={books_str})".replace('\n', '\\n')
+        return f"Gadget(name={self.name!r}, ruby={self.ruby!r}, \
+href={self.href!r}, desc={self.desc!r}, \
+books={books_str}, image_url={self.image_url!r}, total_results={self.total_results})".replace('\n', '\\n')
 
 
 @dataclass
