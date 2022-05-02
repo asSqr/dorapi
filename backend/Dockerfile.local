@@ -9,10 +9,9 @@ ARG APP_TIMEOUT
 WORKDIR /backend
 COPY . /backend
 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt --no-cache-dir && \
+RUN pip install -r requirements.txt --no-cache-dir && \
     sed -i -e 's/{% load staticfiles %}/{% load static %}/' /usr/local/lib/python3.8/site-packages/rest_framework_swagger/templates/rest_framework_swagger/index.html
 
 COPY ./openapi.py /usr/local/lib/python3.8/site-packages/rest_framework/schemas
 
-CMD python ./sleep.py && python manage.py runserver 0.0.0.0:8000
+CMD ["python", "./sleep.py", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
