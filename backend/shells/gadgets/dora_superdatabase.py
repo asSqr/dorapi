@@ -135,6 +135,7 @@ def get_gadget_info(
             if isinstance(content, NavigableString) or content.name == DIV_TAG:
                 
                 desc += str(content)
+                index += len(str(content))
                 
                 continue
             
@@ -191,6 +192,7 @@ def get_gadget_info(
                     )
                     
                     desc += render_content
+                    index += len(render_content)
                     
                     continue
                 
@@ -210,6 +212,7 @@ def get_gadget_info(
                     )
                     
                     desc += render_content
+                    index += len(render_content)
                     
                     continue
             
@@ -320,9 +323,9 @@ def get_gadgets() -> Tuple[List[Gadget], List[Link]]:
 
 print(f'#gadgets: {len(gadgets)}', file=sys.stderr)
 
-if len(gadgets) < 3000:
+# if len(gadgets) < 3000:
     # image_url 等取得
-    gadgets = worker(gadgets)
+    # gadgets = worker(gadgets)
 
 
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)
