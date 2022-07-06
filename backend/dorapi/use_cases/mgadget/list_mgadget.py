@@ -1,8 +1,7 @@
 from commons.use_case import BaseUseCase
-from dorapi.models import MUser, MGadget, GadgetLink
+from dorapi.models import MUser, MGadget
 from dorapi.logics.mgadget import MGadgetProcess
 from typing import Dict, Any
-from collections import defaultdict
 
 
 class ListMGadget(BaseUseCase):
