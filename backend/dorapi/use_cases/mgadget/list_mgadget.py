@@ -1,7 +1,8 @@
 from commons.use_case import BaseUseCase
-from dorapi.models import MUser, MGadget
+from dorapi.models import MUser, MGadget, GadgetLink
 from dorapi.logics.mgadget import MGadgetProcess
 from typing import Dict, Any
+from collections import defaultdict
 
 
 class ListMGadget(BaseUseCase):
@@ -29,6 +30,8 @@ class ListMGadget(BaseUseCase):
 
         mgadget_process.distinct()
         mgadget_process.paginate(page_size, page)
+        
+        mgadget_process.attach_gadget_links()
 
         mgadget_queryset = mgadget_process.mgadget_queryset
         
