@@ -44,10 +44,7 @@ class MGadgetProcess:
         mgadget_gadget_link_dict = defaultdict(list)
         
         for gadget_link in gadget_link_queryset:
-            (
-                mgadget_gadget_link_dict[str(gadget_link.from_mgadget.id)]
-                    .append(gadget_link)
-            )
+            mgadget_gadget_link_dict[str(gadget_link.from_mgadget.id)].append(gadget_link)
             
         for mgadget in self.mgadget_queryset:
             mgadget.links = mgadget_gadget_link_dict[str(mgadget.id)]
