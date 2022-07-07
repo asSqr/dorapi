@@ -27,7 +27,7 @@ from typing import List, Tuple      # noqa
 
 sys.path.append('backend/seeds/gadgets')
 
-# from custom_search import worker        # noqa
+from custom_search import worker        # noqa
 
 
 GADGET_ARTICLE_PATH = 'article'
@@ -323,9 +323,9 @@ def get_gadgets() -> Tuple[List[Gadget], List[Link]]:
 
 print(f'#gadgets: {len(gadgets)}', file=sys.stderr)
 
-# if len(gadgets) < 3000:
+if len(gadgets) < 3000:
     # image_url 等取得
-    # gadgets = worker(gadgets)
+    gadgets = worker(gadgets)
 
 
 gadget_links = map(lambda link: link.to_gadget_link(gadgets), links)
