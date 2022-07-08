@@ -144,10 +144,10 @@ class TestListMGadget(TestCase, MGadgetMixin):
         
         mgadget_dict = {}
         
-        page = 3
-        page_size = 20
+        page = 1
+        page_size = 10
         
-        mgadgets = self.seeds.mgadgets[page_size * (page - 1):page_size * page]
+        mgadgets = self.seeds.mgadgets
         
         for mgadget in mgadgets:
             mgadget_dict[mgadget.href] = mgadget
@@ -166,7 +166,7 @@ class TestListMGadget(TestCase, MGadgetMixin):
                 
                 self.assertMGadget(data, mgadget)
                 
-            self.assertEqual(extras['count'], len(mgadgets))
+            self.assertEqual(extras['count'], page_size)
 
         check_response()
 

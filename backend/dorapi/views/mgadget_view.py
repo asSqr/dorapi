@@ -14,7 +14,7 @@ class MGadgetView(SingleViewSet):
     permission_classes = (AllowAny,)
 
     serializer_class_dict = {
-        'list': serializers.MGadgetReadDataListSerializer,
+        'list': serializers.MGadgetDataListSerializer,
         'retrieve': serializers.MGadgetDataSerializer,
     }
 

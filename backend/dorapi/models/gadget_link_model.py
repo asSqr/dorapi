@@ -21,6 +21,9 @@ class GadgetLinkQuerySet(QuerySet):
     
     def filter_eq_mgadget(self, mgadget) -> 'GadgetLinkQuerySet':
         return self.filter(from_mgadget=mgadget)
+    
+    def filter_mgadget_in(self, mgadgets) -> 'GadgetLinkQuerySet':
+        return self.filter(from_mgadget__in=mgadgets)
 
 
 class GadgetLink(BaseModel):
