@@ -28,9 +28,9 @@ class ListMGadget(BaseUseCase):
             mgadget_process.sort_by_query_param(sort_key, sort_order)
 
         mgadget_process.distinct()
-        mgadget_process.paginate(page_size, page)
-        
         mgadget_process.attach_gadget_links()
+        
+        mgadget_process.paginate(page_size, page)
 
         mgadget_queryset = mgadget_process.mgadget_queryset
         
