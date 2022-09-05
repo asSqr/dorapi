@@ -135,6 +135,7 @@ def get_gadget_info(
             if isinstance(content, NavigableString) or content.name == DIV_TAG:
                 
                 desc += str(content)
+                index += len(str(content))
                 
                 continue
             
@@ -191,6 +192,7 @@ def get_gadget_info(
                     )
                     
                     desc += render_content
+                    index += len(render_content)
                     
                     continue
                 
@@ -210,6 +212,7 @@ def get_gadget_info(
                     )
                     
                     desc += render_content
+                    index += len(render_content)
                     
                     continue
             
